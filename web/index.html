@@ -2,14 +2,53 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>uv</title>
     <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.css"/>
 </head>
-<body ng-app="app">
-
+<body ng-app="app" style="padding:0;margin:0;">
+<div >
+    <div ui-view="navbar" class="navbar navbar-inverse" style="border-radius: 0;margin-bottom: 0px;"></div>
+    <div class="row">
+        <div ui-view="left" class="col-md-2" style="border:1px solid #333;"></div>
+        <div ui-view="content" class="col-md-9" style="border:1px solid #333;"></div>
+        <div ui-view="right" class="col-md-1" style="border:1px solid #333;"></div>
+    </div>
+</div>
 </body>
 <script src="./assets/angularjs/angular.js"></script>
+<script src="assets/angularjs/angular-ui-router.js"></script>
+<script src="assets/angularjs/angular-resource.js"></script>
+
+<script src="resource/user-resource.js"></script>
+<script src="app/user/router/user-router.js"></script>
 <script>
+    angular.module('app', ['ui.router', 'user.router'])
+            .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+                $urlRouterProvider.otherwise('/index');
+                $stateProvider
+                        .state('index', {
+                            url: '/index',
+                            views: {
+                                'navbar': {
+                                    template: 'navbar'
+                                },
+                                'left': {
+                                    templateUrl:'app/index/left.html'
+                                },
+                                'right': {
+                                    template: 'right'
+                                },
+                                'content': {
+                                    templateUrl: 'app/index/content.html',
+                                    controller: ['$scope', '$state', function ($scope, $state) {
+
+                                    }]
+                                }
+                            }
+                        });
+            }])
+            .run(['$state', function ($state) {
+            }]);
 
 </script>
 </html>
